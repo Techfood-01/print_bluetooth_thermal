@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
@@ -103,8 +104,9 @@ class PrintBluetoothThermal {
   }
 
   ///send bytes to print, esc_pos_utils_plus package must be used, returns true if successful
-  static Future<bool> writeBytes(List<int> bytes) async {
+  static Future<bool> writeBytes(Uint8List message) async {
     //enviar bytes a la impresora
+    List<int> bytes = message.toList();
     if (Platform.isWindows) {
       return await PrintBluetoothThermalWindows.writeBytes(bytes: bytes);
     } else {
@@ -116,6 +118,7 @@ class PrintBluetoothThermal {
       }
     }
   }
+
 
   ///Strings are sent to be printed by the PrintTextSize class can print from size 1 (50%) to size 5 (400%)
   static Future<bool> writeString({required PrintTextSize printText}) async {
